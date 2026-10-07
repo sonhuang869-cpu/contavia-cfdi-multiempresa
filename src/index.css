@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/*
+  Un sistema contable se mira todos los días durante horas. Papel frío, tinta
+  casi negra, azul de archivo para la acción y ámbar sólo para importes.
+  Densidad alta a propósito: quien factura quiere ver muchas filas, no tarjetas.
+*/
+@theme {
+  --color-papel: oklch(0.981 0.003 247.9);
+  --color-tarjeta: oklch(1 0 0);
+  --color-tinta: oklch(0.24 0.018 256.1);
+  --color-tinta-media: oklch(0.505 0.018 257.4);
+  --color-tinta-tenue: oklch(0.665 0.015 259.2);
+  --color-linea: oklch(0.906 0.008 253.6);
+  --color-archivo: oklch(0.42 0.096 254.7);
+  --color-archivo-claro: oklch(0.955 0.021 254.1);
+  --color-importe: oklch(0.52 0.117 72.4);
+  --color-importe-claro: oklch(0.963 0.032 85.3);
+  --color-vigente: oklch(0.51 0.116 158.2);
+  --color-vigente-claro: oklch(0.957 0.029 160.4);
+  --color-alto: oklch(0.52 0.191 27.1);
+  --color-alto-claro: oklch(0.961 0.021 22.8);
+  --color-aviso: oklch(0.60 0.144 58.7);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.4rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+}
+
+@layer base {
+  * { border-color: var(--color-linea); }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 2px solid var(--color-archivo); outline-offset: 2px; }
+  h1, h2, h3 { letter-spacing: -0.014em; }
+}
+
+@layer utilities {
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  /* RFC, UUID y folios: siempre monoespaciado, nunca se parten a la mitad */
+  .clave { font-family: var(--font-mono); font-size: 0.78em; letter-spacing: -0.02em; white-space: nowrap; }
+  .sin-barra::-webkit-scrollbar { display: none; }
+  .sin-barra { scrollbar-width: none; }
+}
+
+/* La lista de avisos se coloca con un desplazamiento fijo y su ancho completo
+   se sale de la pantalla en 390px. */
+[data-sonner-toaster] { max-width: calc(100vw - 2rem); }
+
+@keyframes sube { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
+.sube { animation: sube 0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
